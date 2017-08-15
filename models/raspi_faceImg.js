@@ -20,7 +20,7 @@ const faceImgSchema = mongoose.Schema({
         type : String,
         required : true
     }
-})
+});
 
 const FaceImg = module.exports = mongoose.model('faceimg', faceImgSchema);
 
