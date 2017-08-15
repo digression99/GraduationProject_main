@@ -24,8 +24,7 @@ router.post('/face', (req, res) => {
     });
 
     FaceImg.addFaceImg(newImg, (err, img) => {
-        if (err)
-        {
+        if (err) {
             console.log(err);
             throw err;
         }
