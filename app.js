@@ -22,7 +22,7 @@ mongoose.connection.on('error', (err) =>{
     console.log('database error ' + err);
 });
 
-app.use(bodyParser.json());
+app.use(bodyParser.json({limit : '50mb'}));
 app.use(cors());
 
 app.use('/api', require('./routes/api'));
