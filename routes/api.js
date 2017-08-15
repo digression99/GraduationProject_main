@@ -14,7 +14,8 @@ router.get('/face', (req, res) => {
 
 router.post('/face', (req, res) => {
     console.log('post api/face received.');
-    console.log('received data : ', JSON.stringify(req));
+    console.log('received data : ', req);
+    //console.log('received data : ', JSON.stringify(req));
 
     let newImg = new FaceImg({
         img : req.body.img,
