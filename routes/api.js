@@ -1,5 +1,6 @@
 const express = require('express');
 const FaceImg = require('../models/raspi_faceImg');
+const mongoose = require('mongoose');
 
 const router = express.Router();
 
@@ -12,17 +13,24 @@ router.get('/face', (req, res) => {
 });
 
 router.post('/face', (req, res) => {
-    let img = new FaceImg({
+    console.log('post api/face received.');
+    let newImg = new FaceImg({
         img : req.body.img,
         date : req.body.date,
         username : 'kim'
     });
 
-    res.json(img);
-
-
-
-
+    FaceImg.addFaceImg(newImg, (err, img) => {
+        if (err)
+        {
+            console.log(err);
+            throw err;
+        }
+        else {
+            console.log('successfully saved.');
+            res.json(img);
+        }
+    });
 
    //res.send('This is post request to face detection.');
    // Here, I have to transform the img files using pca.

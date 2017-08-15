@@ -27,3 +27,12 @@ const FaceImg = module.exports = mongoose.model('faceimg', faceImgSchema);
 module.exports.getFaceImgById = (id, callback) => {
     FaceImg.findById(id, callback);
 };
+
+module.exports.getFaceImgByUsername = (username, callback) => {
+    const query = {username : username};
+    FaceImg.findOne(query, callback);
+};
+
+module.exports.addFaceImg = (faceImg, callback) => {
+    faceImg.save(callback);
+};
