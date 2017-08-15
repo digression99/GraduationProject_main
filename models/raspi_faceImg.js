@@ -1,0 +1,29 @@
+/*
+
+- Methods here will only be used for database.
+- You should
+
+ */
+
+const mongoose = require('mongoose');
+
+const faceImgSchema = mongoose.Schema({
+    img : {
+        type : Object,
+        required : true
+    },
+    date : {
+        type : Date,
+        required : true
+    },
+    username : {
+        type : String,
+        required : true
+    }
+})
+
+const FaceImg = module.exports = mongoose.model('faceimg', faceImgSchema);
+
+module.exports.getFaceImgById = (id, callback) => {
+    FaceImg.findById(id, callback);
+};
