@@ -76,7 +76,7 @@ router.post('/face', (req, res) => {
             }
             else {
                 console.log('successfully saved.');
-                res.json({success : true, images : results[0]});
+                res.json({success : true, result : results[0]});
             }
         });
 
