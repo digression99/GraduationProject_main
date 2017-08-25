@@ -50,12 +50,12 @@ router.post('/face', (req, res) => {
     //console.log('received data : ', JSON.stringify(req));
 
     let newImg = new FaceImg({
-        img : req.body.img,
+        imgBase64 : req.body.img,
         date : req.body.date,
         username : 'kim'
     });
 
-    vision.faceDetection({content : newImg.img}).then((results) => {
+    vision.faceDetection({content : newImg.imgBase64}).then((results) => {
         console.log("I got the results with base 64 img! !!!!!!");
         const faces = results[0].faceAnnotations;
 
