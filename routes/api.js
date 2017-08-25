@@ -101,49 +101,53 @@ router.post('/face', (req, res) => {
     vision.faceDetection({content : newImg.imgBase64}).then((results) => {
         console.log("I got the results with base 64 img! !!!!!!");
         const faces = results[0].faceAnnotations;
+        if (!faces) {
+            res.json({success : false, message : "Not a face."});
+        } else {
 
-        console.log('Faces:'); // 이게 Faces라는 것은 여러 얼굴들을 동시에 보내는게 가능하다는 것이다
-        faces.forEach((face, i) => {
-            console.log(`  Face #${i + 1}:`);
-            console.log(`    Joy: ${face.joyLikelihood}`);
-            console.log(`    Anger: ${face.angerLikelihood}`);
-            console.log(`    Sorrow: ${face.sorrowLikelihood}`);
-            console.log(`    Surprise: ${face.surpriseLikelihood}`);
-        });
+            console.log('Faces:'); // 이게 Faces라는 것은 여러 얼굴들을 동시에 보내는게 가능하다는 것이다
+            faces.forEach((face, i) => {
+                console.log(`  Face #${i + 1}:`);
+                console.log(`    Joy: ${face.joyLikelihood}`);
+                console.log(`    Anger: ${face.angerLikelihood}`);
+                console.log(`    Sorrow: ${face.sorrowLikelihood}`);
+                console.log(`    Surprise: ${face.surpriseLikelihood}`);
+            });
 
-        FaceImg.addFaceImg(newImg, (err, img) => {
-            if (err) {
-                res.json({success : false, message : err});
-                console.log(err);
-                //throw err;
+            FaceImg.addFaceImg(newImg, (err, img) => {
+                if (err) {
+                    res.json({success : false, message : err});
+                    console.log(err);
+                    //throw err;
+                }
+                else {
+                    console.log('successfully saved.');
+                    let faceData = {
+                        leftEyePosX: results[0].faceAnnotations[0].landmarks[0].position.x,
+                        leftEyePosY: results[0].faceAnnotations[0].landmarks[0].position.y,
+                        rightEyePosX: results[0].faceAnnotations[0].landmarks[1].position.x,
+                        rightEyePosY: results[0].faceAnnotations[0].landmarks[1].position.y,
+                        noseTipPosX: results[0].faceAnnotations[0].landmarks[8].position.x,
+                        noseTipPosY: results[0].faceAnnotations[0].landmarks[8].position.y,
+                        mouthCenterPosX: results[0].faceAnnotations[0].landmarks[12].position.x,
+                        mouthCenterPosY: results[0].faceAnnotations[0].landmarks[12].position.y,
+                        username: 'kim'
+                    };
+
+                    FaceData.addFaceData(faceData, (err) => {
+                        if (err) {
+                            res.json({success: false, message: err});
+                            //console.log(err);
+                            //throw err;
+                        } else {
+                            // 나중에 여기에 kmean으로 클러스터링 한 후에 결과를 보내자.
+                            res.json({success: true, result: faceData});
+                        }
+                    });
             }
-            else {
-                console.log('successfully saved.');
-                let faceData = {
-                    leftEyePosX : results[0].faceAnnotations[0].landmarks[0].position.x,
-                    leftEyePosY : results[0].faceAnnotations[0].landmarks[0].position.y,
-                    rightEyePosX : results[0].faceAnnotations[0].landmarks[1].position.x,
-                    rightEyePosY : results[0].faceAnnotations[0].landmarks[1].position.y,
-                    noseTipPosX : results[0].faceAnnotations[0].landmarks[8].position.x,
-                    noseTipPosY : results[0].faceAnnotations[0].landmarks[8].position.y,
-                    mouthCenterPosX : results[0].faceAnnotations[0].landmarks[12].position.x,
-                    mouthCenterPosY : results[0].faceAnnotations[0].landmarks[12].position.y,
-                    username : 'kim'
-                };
-
-                FaceData.addFaceData(faceData, (err) => {
-                    if (err) {
-                        res.json({success : false, message : err});
-                        //console.log(err);
-                        //throw err;
-                    } else {
-                        // 나중에 여기에 kmean으로 클러스터링 한 후에 결과를 보내자.
-                        res.json({success : true, result : faceData});
-                    }
-                });
             }
-        });
-
+            );
+        }
     }).catch((err) => {
         res.json({success : false, message : err});
         //console.error("ERROR : ", err);
