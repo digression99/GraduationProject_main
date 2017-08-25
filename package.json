@@ -9,6 +9,7 @@
     "cors": "^2.8.4",
     "express": "^4.15.4",
     "mongoose": "^4.11.7",
+    "node-kmeans": "^1.1.0",
     "nodemon": "^1.11.0"
   },
   "devDependencies": {},

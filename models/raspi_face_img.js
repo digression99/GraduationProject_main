@@ -28,6 +28,10 @@ module.exports.getFaceImgById = (id, callback) => {
     FaceImg.findById(id, callback);
 };
 
+module.exports.getAllFaceImageByUsername = (username, callback) => {
+    FaceImg.find({username : username});
+};
+
 module.exports.getFaceImgByUsername = (username, callback) => {
     const query = {username : username};
     FaceImg.findOne(query, callback);
