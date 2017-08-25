@@ -33,6 +33,35 @@ router.post('/detect', (req, res) => {
 });
 
 router.get('/cluster', (req, res) => {
+    FaceData.getAllFaceDataByUsername('kim', (err, data) => {
+        if (err) res.json({success : false, message :err});
+        else {
+            let vectors = [];
+            for (let i = 0; i < data.length; ++i)
+            {
+                vectors[i] = [
+                    data[i].leftEyePosX, data[i].leftEyePosY,
+                    data[i].rightEyePosX, data[i].rightEyePosY,
+                    data[i].noseTipPosX, data[i].noseTipPosY,
+                    data[i].mouthCenterPosX, data[i].mouthCenterPosY
+                ];
+            }
+
+            kmeans.clusterize(vectors, {k: 2}, (err,res) => {
+                if (err) {
+                    res.json({success : false, message : err});
+                    console.error(err);
+                }
+                else {
+                    res.json({success : true, results : res});
+                    console.log('%o',res);
+                }
+            });
+
+        }
+    });
+
+
 //     FaceData.getAllFaceDataByUsername('kim', (err, data) => {
 //         // data will be an array.
 //         if (err) res.json({success: false, message : err});
@@ -64,7 +93,7 @@ router.get('/cluster', (req, res) => {
 //         if (err) console.error(err);
 //         else console.log('%o',res);
 //     });
-    res.send('cluster');
+    //res.send('cluster');
 });
 
 router.get('/face', (req, res) => {
