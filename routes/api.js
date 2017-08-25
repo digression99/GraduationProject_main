@@ -104,6 +104,7 @@ router.post('/face', (req, res) => {
         if (!faces) {
             res.json({success : false, message : "Not a face."});
         } else {
+            console.log('faces data : ', faces);
 
             console.log('Faces:'); // 이게 Faces라는 것은 여러 얼굴들을 동시에 보내는게 가능하다는 것이다
             faces.forEach((face, i) => {
@@ -114,7 +115,7 @@ router.post('/face', (req, res) => {
                 console.log(`    Surprise: ${face.surpriseLikelihood}`);
             });
 
-            FaceImg.addFaceImg(newImg, (err, img) => {
+            FaceImg.addFaceImg(newImg, (err) => {
                 if (err) {
                     res.json({success : false, message : err});
                     console.log(err);
