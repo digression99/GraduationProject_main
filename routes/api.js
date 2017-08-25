@@ -47,17 +47,16 @@ router.get('/cluster', (req, res) => {
                 ];
             }
 
-            kmeans.clusterize(vectors, {k: 2}, (err,res) => {
+            kmeans.clusterize(vectors, {k: 2}, (err,result) => {
                 if (err) {
                     res.json({success : false, message : err});
                     console.error(err);
                 }
                 else {
-                    res.json({success : true, results : res});
-                    console.log('%o',res);
+                    res.json({success : true, results : result});
+                    console.log('%o',result);
                 }
             });
-
         }
     });
 
