@@ -129,7 +129,7 @@ router.post('/face', (req, res) => {
     vision.faceDetection({content : newImg.imgBase64}).then((results) => {
         console.log("I got the results with base 64 img! !!!!!!");
         const faces = results[0].faceAnnotations;
-        if (!faces || faces === []) {
+        if (!faces || faces.length < 1) {
             res.json({success : false, message : "Not a face."});
         } else {
             console.log('faces data : ', faces);
