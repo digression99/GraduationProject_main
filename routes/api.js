@@ -2,6 +2,9 @@ const express = require('express');
 const FaceImg = require('../models/raspi_faceImg');
 const fs = require('fs');
 const path = require('path');
+const Vision = require('@google-cloud/vision');
+
+const vision = Vision();
 
 const router = express.Router();
 
@@ -16,7 +19,6 @@ router.get('/test', (req, res) => {
             throw err;
         } else {
             console.log('data loaded.');
-            res.contentType('img/jpg');
             res.json(data);
         }
     });
@@ -53,15 +55,33 @@ router.post('/face', (req, res) => {
         username : 'kim'
     });
 
-    FaceImg.addFaceImg(newImg, (err, img) => {
-        if (err) {
-            console.log(err);
-            throw err;
-        }
-        else {
-            console.log('successfully saved.');
-            res.json(img);
-        }
+    vision.faceDetection({content : newImg.img}).then((results) => {
+        console.log("I got the results with base 64 img! !!!!!!");
+        const faces = results[0].faceAnnotations;
+
+        console.log('Faces:'); // 이게 Faces라는 것은 여러 얼굴들을 동시에 보내는게 가능하다는 것이다
+        faces.forEach((face, i) => {
+            console.log(`  Face #${i + 1}:`);
+            console.log(`    Joy: ${face.joyLikelihood}`);
+            console.log(`    Anger: ${face.angerLikelihood}`);
+            console.log(`    Sorrow: ${face.sorrowLikelihood}`);
+            console.log(`    Surprise: ${face.surpriseLikelihood}`);
+        });
+
+        FaceImg.addFaceImg(newImg, (err, img) => {
+            if (err) {
+                res.json({success : false, message : err});
+                console.log(err);
+                //throw err;
+            }
+            else {
+                console.log('successfully saved.');
+                res.json({success : true, images : results[0]});
+            }
+        });
+
+    }).catch((err) => {
+        console.error("ERROR : ", err);
     });
 
    //res.send('This is post request to face detection.');

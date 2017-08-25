@@ -8,15 +8,15 @@ import {ImgService } from '../../services/img.service';
 })
 export class TestComponent implements OnInit {
 
-  img : any;
+  image : any;
 
   constructor(private imgService : ImgService) { }
 
   ngOnInit() {
     this.imgService.getTestImage().subscribe(data => {
-      this.img = data;
-      this.img = new Image(this.img.data);
-      this.img.src = '../../../assets/testimg_2.JPG';
+      console.log(data.data);
+      this.image = data.data;
+      this.image = "data:image/png;base64," + window.btoa(this.image);
     });
   }
 }

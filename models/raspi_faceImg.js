@@ -8,8 +8,8 @@
 const mongoose = require('mongoose');
 
 const faceImgSchema = mongoose.Schema({
-    img : {
-        type : Object,
+    imgBase64 : {
+        type : String,
         required : true
     },
     date : {
