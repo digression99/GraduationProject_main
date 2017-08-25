@@ -123,7 +123,7 @@ router.post('/face', (req, res) => {
                 }
                 else {
                     console.log('successfully saved.');
-                    let faceData = {
+                    let faceData = new FaceData ({
                         leftEyePosX: results[0].faceAnnotations[0].landmarks[0].position.x,
                         leftEyePosY: results[0].faceAnnotations[0].landmarks[0].position.y,
                         rightEyePosX: results[0].faceAnnotations[0].landmarks[1].position.x,
@@ -133,7 +133,7 @@ router.post('/face', (req, res) => {
                         mouthCenterPosX: results[0].faceAnnotations[0].landmarks[12].position.x,
                         mouthCenterPosY: results[0].faceAnnotations[0].landmarks[12].position.y,
                         username: 'kim'
-                    };
+                    });
 
                     FaceData.addFaceData(faceData, (err) => {
                         if (err) {
