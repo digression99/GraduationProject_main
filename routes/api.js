@@ -118,22 +118,34 @@ router.get('/face', (req, res) => {
 router.post('/face-register', (req, res) => {
     vision.faceDetection({content : req.body.imgArr}).then((results) => {
         console.log('I got the results with img arrs!!');
-        const faces = results[0].faceAnnotations;
 
-        if (!faces || faces.length < 1) res.json({success : false, message : "Not a face."});
-        else {
-            faces.forEach((face, i)=> {
-                console.log(`  Face #${i + 1}:`);
+        for (var i = 0; i < results.length; ++i) {
+            const face = results[i].faceAnnotations;
+            if (!face || face.length < 1) console.log("Not a face");
+            else {
                 console.log(`    Joy: ${face.joyLikelihood}`);
                 console.log(`    Anger: ${face.angerLikelihood}`);
                 console.log(`    Sorrow: ${face.sorrowLikelihood}`);
                 console.log(`    Surprise: ${face.surpriseLikelihood}`);
-            });
-            res.json({success : true, message : "We checked the faces."});
-            // now, do the face normalization.
-            // and then, use clustering algorithm with the normalized data.
-            // but first, test if the vision api can detect many faces.
+            }
         }
+        res.json({success : true, message : "We checked the faces."});
+        // const faces = results[0].faceAnnotations;
+        //
+        // if (!faces || faces.length < 1) res.json({success : false, message : "Not a face."});
+        // else {
+        //     faces.forEach((face, i)=> {
+        //         console.log(`  Face #${i + 1}:`);
+        //         console.log(`    Joy: ${face.joyLikelihood}`);
+        //         console.log(`    Anger: ${face.angerLikelihood}`);
+        //         console.log(`    Sorrow: ${face.sorrowLikelihood}`);
+        //         console.log(`    Surprise: ${face.surpriseLikelihood}`);
+        //     });
+        //     res.json({success : true, message : "We checked the faces."});
+        //     // now, do the face normalization.
+        //     // and then, use clustering algorithm with the normalized data.
+        //     // but first, test if the vision api can detect many faces.
+        // }
     }).catch(err => {
         console.log(err);
         res.json({success : false, message : err});
