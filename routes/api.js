@@ -118,6 +118,7 @@ router.get('/face', (req, res) => {
 router.post('/face-register', (req, res) => {
     vision.faceDetection({content : req.body.imgArr}).then((results) => {
         console.log('I got the results with img arrs!!');
+        console.log(results);
 
         for (var i = 0; i < results.length; ++i) {
             const face = results[i].faceAnnotations;
