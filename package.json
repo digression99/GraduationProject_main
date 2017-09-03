@@ -20,6 +20,9 @@
     "type": "git",
     "url": "https://www.github.com/digression99/GraduationProject_main.git"
   },
+  "scripts" :{
+    "start" : "sudo node app.js"
+  },
   "keywords": [
     "respberry",
     "pi",
