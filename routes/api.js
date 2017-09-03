@@ -115,6 +115,30 @@ router.get('/face', (req, res) => {
     });
 });
 
+router.post('/face-register', (req, res) => {
+    vision.faceDetection({content : req.body.imgArr}).then((results) => {
+        console.log('I got the results with img arrs!!');
+        const faces = results[0].faceAnnotations;
+
+        if (!faces || faces.length < 1) res.json({success : false, message : "Not a face."});
+        else {
+            faces.forEach((face, i)=> {
+                console.log(`  Face #${i + 1}:`);
+                console.log(`    Joy: ${face.joyLikelihood}`);
+                console.log(`    Anger: ${face.angerLikelihood}`);
+                console.log(`    Sorrow: ${face.sorrowLikelihood}`);
+                console.log(`    Surprise: ${face.surpriseLikelihood}`);
+            });
+            res.json({success : true, message : "We checked the faces."});
+            // now, do the face normalization.
+            // and then, use clustering algorithm with the normalized data.
+            // but first, test if the vision api can detect many faces.
+        }
+    }).catch(err => {
+        console.log(err);
+    });
+});
+
 router.post('/face', (req, res) => {
     console.log('post api/face received.');
     console.log('received data : ', req.body);
@@ -162,6 +186,10 @@ router.post('/face', (req, res) => {
                         mouthCenterPosY: results[0].faceAnnotations[0].landmarks[12].position.y,
                         username: 'kim'
                     });
+
+                    // scale algorithm needed.
+
+                    // after scaling, do the clustering.
 
                     FaceData.addFaceData(faceData, (err) => {
                         if (err) {
