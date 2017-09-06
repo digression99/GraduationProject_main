@@ -27,6 +27,7 @@ router.get('/test', (req, res) => {
 });
 
 router.post('/detect', (req, res) => {
+    // stranger detect.
 
 
 
@@ -47,7 +48,7 @@ router.get('/cluster', (req, res) => {
                 ];
             }
 
-            kmeans.clusterize(vectors, {k: 2}, (err,result) => {
+            kmeans.clusterize(vectors, {k: 1}, (err,result) => {
                 if (err) {
                     res.json({success : false, message : err});
                     console.error(err);
