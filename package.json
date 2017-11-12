@@ -14,14 +14,11 @@
   },
   "devDependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "sudo node app.js"
   },
   "repository": {
     "type": "git",
     "url": "https://www.github.com/digression99/GraduationProject_main.git"
-  },
-  "scripts" :{
-    "start" : "sudo node app.js"
   },
   "keywords": [
     "respberry",

@@ -16,7 +16,7 @@ const faceImgSchema = mongoose.Schema({
         type : String,
         required : true
     },
-    username : {
+    userId : {
         type : String,
         required : true
     }

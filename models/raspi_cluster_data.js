@@ -10,9 +10,13 @@ const clusterDataSchema = mongoose.Schema({
         type : Object,
         required : true
     },
-    username : {
+    userId : {
         type : String,
-        required : true
+        required : false // stranger라면 없다.
+    },
+    relation : { // friend, stranger, user
+        type : String,
+        required : true, // default는 stranger
     }
 });
 
@@ -22,6 +26,22 @@ module.exports.addClusterData = (data, callback) => {
     data.save(callback);
 };
 
-module.exports.getClusterDataByUsername = (username, callback) => {
-    ClusterData.findOne({username : username}, callback);
+module.exports.getClusterDataByUserId = (userId, callback) => {
+    ClusterData.findOne({userId : userId}, callback);
+};
+
+module.exports.getClusterDataByRelation = (rel, callback) => {
+    let query = {relation : rel};
+
+    ClusterData.find(query, callback);
+};
+
+module.exports.getClusterDataByCentroid = (centroid, callback) => {
+    let query = {centroid : centroid};
+
+    ClusterData.find(query, callback);
+};
+
+module.exports.updateClusterData = (data, callback) =>{
+    data.update(callback); // check.
 };
