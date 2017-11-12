@@ -362,14 +362,15 @@ router.post('/face', (req, res) => {
                         noseTipPosY: results[0].faceAnnotations[0].landmarks[8].position.y,
                         mouthCenterPosX: results[0].faceAnnotations[0].landmarks[12].position.x,
                         mouthCenterPosY: results[0].faceAnnotations[0].landmarks[12].position.y,
-                        userId: '' // raspiId에서 username을 뽑아내야 한다.
+
+                        username: 'kim' // raspiId에서 username을 뽑아내야 한다.
                     });
 
                     User.getUserProfileByRaspiId(raspiId, (err, data) => {
                         if (err) {
                             res.json({success : false, message : err.message});
                         } else {
-                            faceData.userId = data.userId;
+                            faceData.username = data.userId;
 
                             FaceData.addFaceData(faceData, (err) => {
                                 if (err) {
