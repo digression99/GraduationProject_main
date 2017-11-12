@@ -370,7 +370,9 @@ router.post('/face', (req, res) => {
                         if (err) {
                             res.json({success : false, message : err.message});
                         } else {
-                            faceData.username = data.userId;
+                            faceData.username = data.username;
+                            //console.log("userId : ", data.userId);
+                            //console.log("username : ", data.username);
 
                             FaceData.addFaceData(faceData, (err) => {
                                 if (err) {
