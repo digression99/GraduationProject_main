@@ -325,7 +325,7 @@ router.post('/face', (req, res) => {
     let newImg = new FaceImg({
         imgBase64 : req.body.img,
         date : req.body.date,
-        username : 'kim'
+        userId : 'kim'
     });
     let raspiId = req.body.raspiId;
 
@@ -351,8 +351,7 @@ router.post('/face', (req, res) => {
                     res.json({success : false, message : err});
                     console.log(err);
                     //throw err;
-                }
-                else {
+                } else {
                     console.log('successfully saved.');
                     let faceData = new FaceData ({
                         leftEyePosX: results[0].faceAnnotations[0].landmarks[0].position.x,
